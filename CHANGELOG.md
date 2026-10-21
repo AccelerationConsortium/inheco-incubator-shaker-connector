@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1 — 2026-10-21
+
+- Read-only serial identity discovery for master and per-floor reply IDs.
+- Identity scans never initialize, move, heat or shake the instrument.
+
 ## 0.3.0 — 2026-10-21
 
 - Optional local browser panel using the real SiLA 2 client.

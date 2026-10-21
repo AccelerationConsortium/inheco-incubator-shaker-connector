@@ -7,7 +7,7 @@ Status: software implementation with offline validation; physical commissioning 
 - Fresh `uv sync --python 3.12 --extra test --locked` succeeded on Linux/Python 3.12.
 - The v0.2.0 connector baseline passed GitHub Actions on both `ubuntu-latest` and `macos-latest`: [run 39643043672](https://github.com/SissiFeng/inheco-incubator-shaker/actions/runs/39643043672).
 - Project editable package build succeeded.
-- `uv run pytest -q`: **41 passed**.
+- `uv run pytest -q`: **47 passed**.
 - Ruff undefined/unused-symbol checks passed; source/tests/examples formatted.
 - CDK generated a fresh configuration; helper changed simulation config and read-only probe succeeded.
 - Native serial framing matches the manufacturer's published RFV CRC test vector.
@@ -31,6 +31,13 @@ development environment and is not part of the validated connection path.
 - The installed `shaker-ui --simulation --no-browser` command passed a subprocess smoke test for startup, HTML, server mode, floors and command submission.
 - Browser layout and the temperature-wait disclosure were inspected against read-only simulation fixtures. The managed preview cannot launch the Python runtime; actual HTTP/gRPC operation tests ran separately.
 - The localhost web panel has not been tested against physical hardware.
+
+## Read-only identity discovery
+
+- Tests identify a simulated master and distinct slave reply IDs, including the initial reset response.
+- The discovery path only permits RTS, RFV0 and RFV2; tests reject initialization,
+  drawer, heater and shaker action commands before writing anything.
+- Discovery has not yet been commissioned on physical hardware.
 
 ## Not yet established
 

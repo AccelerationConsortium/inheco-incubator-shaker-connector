@@ -18,7 +18,7 @@ class InhecoConfig(ConnectorBaseConfig):
             port=50052,
             name="INHECO Shaker MP",
             type="InhecoIncubatorShakerMP",
-            version="0.3.0",
+            version="0.3.1",
             description="Read Simulation property before use. Real hardware commissioning pending.",
         )
     )

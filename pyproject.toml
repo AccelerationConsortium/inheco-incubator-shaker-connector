@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 [project]
 name = "unitelabs-inheco-incubator-shaker"
-version = "0.3.0"
+version = "0.3.1"
 description = "SiLA 2 connector for INHECO Incubator Shaker MP using UniteLabs CDK"
 readme = "README.md"
 license = "MIT"

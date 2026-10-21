@@ -78,6 +78,11 @@ def main():
         "probe", help="Read identity and status without initializing or moving"
     )
     read.add_argument("--config", type=Path, default=Path("config.json"))
+    detect = sub.add_parser(
+        "detect", help="Discover master and per-floor identity using read-only queries"
+    )
+    detect.add_argument("--port", required=True)
+    detect.add_argument("--floors", type=int, nargs="+", default=[0, 1, 2])
     args = parser.parse_args()
     if args.action == "ports":
         from serial.tools import list_ports
@@ -94,6 +99,20 @@ def main():
                     )
                 )
             )
+    elif args.action == "detect":
+        if (
+            not args.floors
+            or len(set(args.floors)) != len(args.floors)
+            or any(not 0 <= f <= 5 for f in args.floors)
+        ):
+            parser.error("Floors must be unique integers 0..5")
+        from .io.discovery import discover_port
+
+        print(
+            "Read-only identity scan; allow up to 45 seconds. No device actions are sent.",
+            flush=True,
+        )
+        print(json.dumps(discover_port(args.port, args.floors), indent=2))
     elif args.action == "configure":
         if args.hardware and (not args.port or args.master_id is None):
             parser.error("--hardware requires --port and --master-id")

@@ -84,6 +84,16 @@ separate configuration and validation; do not expose the local test port publicl
 uv run python -m unitelabs.inheco_incubator_shaker.tools ports
 ```
 
+Find the correct serial port, release it in other control software, then run
+read-only identity discovery (no initialization, motion or heating commands):
+
+```sh
+uv run python -m unitelabs.inheco_incubator_shaker.tools detect --port /dev/cu.usbserial-EXAMPLE
+```
+
+Allow up to 45 seconds. This scans the master ID and reports each configured
+floor's reply ID, type, firmware and serial number; it does not change config.json.
+
 Identify the correct USB serial port, master DIP ID, floor identity and per-floor
 reply DIP IDs. The example below is **not** an assertion that your master ID is 2:
 
