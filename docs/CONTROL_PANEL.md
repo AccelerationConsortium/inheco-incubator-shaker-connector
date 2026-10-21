@@ -83,3 +83,23 @@ Temperature waits run asynchronously; ordinary overlapping actions on the same
 floor are rejected while stop controls remain available. The existing device and
 serial interlocks remain authoritative. Long-term audit logging, remote access and
 cross-device workflow orchestration are outside this panel's scope.
+
+
+If the web port is occupied, let the OS choose a free port:
+
+```sh
+uv run --extra ui shaker-ui --port 0
+```
+
+The browser opens the assigned URL; the same URL is printed in the terminal.
+This changes only the HTTP panel port, not the SiLA server port.
+
+
+## USB port ownership
+
+Only the connector owns the USB serial port. The panel connects to SiLA, so it
+may run alongside the connector. The `detect` and `probe` tools open the serial
+port themselves: stop the connector before running either, then restart it after
+the diagnostic finishes. On macOS, `lsof /dev/cu.usbserial-EXAMPLE` identifies the
+port owner without changing any process or device state. An exclusive-lock error
+means the diagnostic has not started; it is not a new instrument error.

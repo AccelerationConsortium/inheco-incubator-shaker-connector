@@ -112,7 +112,14 @@ def main():
             "Read-only identity scan; allow up to 45 seconds. No device actions are sent.",
             flush=True,
         )
-        print(json.dumps(discover_port(args.port, args.floors), indent=2))
+        try:
+            result = discover_port(args.port, args.floors)
+        except OSError as exc:
+            parser.exit(
+                1,
+                f"Cannot open serial port {args.port}: {exc}\nStop the connector or other serial software first. On macOS, inspect the owner with: lsof {args.port}\n",
+            )
+        print(json.dumps(result, indent=2))
     elif args.action == "configure":
         if args.hardware and (not args.port or args.master_id is None):
             parser.error("--hardware requires --port and --master-id")

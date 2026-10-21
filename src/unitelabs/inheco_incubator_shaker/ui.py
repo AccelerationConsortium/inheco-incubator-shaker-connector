@@ -243,7 +243,8 @@ async def serve(args):
         runner = web.AppRunner(create_http_app(panel))
         await runner.setup()
         await web.TCPSite(runner, "127.0.0.1", args.port).start()
-        url = f"http://127.0.0.1:{args.port}"
+        actual_port = runner.addresses[0][1]
+        url = f"http://127.0.0.1:{actual_port}"
         print(
             f"INHECO panel: {url} | {'SIMULATION' if panel.simulation else 'HARDWARE'}",
             flush=True,
@@ -278,17 +279,32 @@ def main():
     parser.add_argument(
         "--sila-port", type=int, default=50052, help="Local SiLA server port"
     )
-    parser.add_argument("--port", type=int, default=8765, help="Local web panel port")
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=8765,
+        help="Local web panel port; 0 selects a free port automatically",
+    )
     parser.add_argument("--no-browser", action="store_true")
     args = parser.parse_args()
-    if not all(1 <= v <= 65535 for v in [args.port, args.sila_port]):
-        parser.error("Ports must be 1..65535")
+    if not 0 <= args.port <= 65535 or not 1 <= args.sila_port <= 65535:
+        parser.error("Web port must be 0..65535; SiLA port must be 1..65535")
     try:
         import aiohttp  # noqa: F401
     except ImportError:
         parser.error("Install the UI extra: uv sync --extra ui")
     with contextlib.suppress(KeyboardInterrupt):
-        asyncio.run(serve(args))
+        try:
+            asyncio.run(serve(args))
+        except OSError as exc:
+            import errno
+
+            if exc.errno == errno.EADDRINUSE:
+                parser.exit(
+                    1,
+                    "Web port is already in use. Run with --port 0 to select a free port automatically.\n",
+                )
+            raise
 
 
 if __name__ == "__main__":

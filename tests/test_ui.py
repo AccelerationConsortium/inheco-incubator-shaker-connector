@@ -153,3 +153,41 @@ async def test_wait_does_not_block_stop_controls():
         stop = panel.submit("DisableHeating", {"Address": 0})
         assert (await wait_job(panel, stop["id"]))["state"] == "succeeded"
         assert (await wait_job(panel, waiting["id"]))["state"] == "failed"
+
+
+async def test_automatic_port_opens_actual_live_url(monkeypatch):
+    import contextlib
+    from types import SimpleNamespace
+
+    from unitelabs.inheco_incubator_shaker.ui import serve
+
+    config = InhecoConfig(discovery=None)
+    config.sila_server.port = 0
+    gen = create_app(config)
+    connector = await anext(gen)
+    task = None
+    try:
+        await connector.start()
+        sila_port = int(connector.sila_server._address.rsplit(":", 1)[1])
+        opened = asyncio.get_running_loop().create_future()
+        monkeypatch.setattr("webbrowser.open", lambda url: opened.set_result(url))
+        task = asyncio.create_task(
+            serve(
+                SimpleNamespace(
+                    simulation=False, sila_port=sila_port, port=0, no_browser=False
+                )
+            )
+        )
+        url = await asyncio.wait_for(opened, 5)
+        assert not url.endswith(":0")
+        async with ClientSession() as http:
+            async with http.get(url + "/api/info") as response:
+                assert response.status == 200
+                assert (await response.json())["simulation"] is True
+    finally:
+        if task is not None:
+            task.cancel()
+            with contextlib.suppress(asyncio.CancelledError):
+                await task
+        await connector.stop()
+        await gen.aclose()

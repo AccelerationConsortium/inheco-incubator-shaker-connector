@@ -2,6 +2,9 @@
 
 ## 0.3.1 — 2026-10-21
 
+- `shaker-ui --port 0` automatically selects a free HTTP port and opens the actual URL.
+- Occupied HTTP ports show a concise recovery message.
+
 - Read-only serial identity discovery for master and per-floor reply IDs.
 - Identity scans never initialize, move, heat or shake the instrument.
 

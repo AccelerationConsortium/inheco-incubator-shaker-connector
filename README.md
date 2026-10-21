@@ -141,3 +141,13 @@ Sources:
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for lint, tests, builds and tutorial rendering.
 Original code and documentation are available under the [MIT license](LICENSE).
+
+
+If the web port is occupied, let the OS choose a free port:
+
+```sh
+uv run --extra ui shaker-ui --port 0
+```
+
+The browser opens the assigned URL; the same URL is printed in the terminal.
+This changes only the HTTP panel port, not the SiLA server port.

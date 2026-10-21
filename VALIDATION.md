@@ -7,7 +7,7 @@ Status: software implementation with offline validation; physical commissioning 
 - Fresh `uv sync --python 3.12 --extra test --locked` succeeded on Linux/Python 3.12.
 - The v0.2.0 connector baseline passed GitHub Actions on both `ubuntu-latest` and `macos-latest`: [run 39643043672](https://github.com/SissiFeng/inheco-incubator-shaker/actions/runs/39643043672).
 - Project editable package build succeeded.
-- `uv run pytest -q`: **47 passed**.
+- `uv run pytest -q`: **48 passed**.
 - Ruff undefined/unused-symbol checks passed; source/tests/examples formatted.
 - CDK generated a fresh configuration; helper changed simulation config and read-only probe succeeded.
 - Native serial framing matches the manufacturer's published RFV CRC test vector.
@@ -23,6 +23,8 @@ Local TCP client/server tests passed. Multicast discovery was unavailable in the
 development environment and is not part of the validated connection path.
 
 ## Local panel validation
+
+- Automatic HTTP port allocation tested by opening the real assigned URL and reading server mode.
 
 - Four HTTP → real SiLA/gRPC → simulator tests cover all panel operations,
   failure propagation, unknown inputs, same-origin/token checks and hardware-init confirmation.
