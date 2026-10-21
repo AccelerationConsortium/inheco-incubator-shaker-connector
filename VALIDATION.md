@@ -5,6 +5,7 @@ Status: software implementation with offline validation; physical commissioning 
 ## Evidence actually obtained
 
 - Fresh `uv sync --python 3.12 --extra test --locked` succeeded on Linux/Python 3.12.
+- GitHub Actions offline validation passed on both `ubuntu-latest` and `macos-latest`: [run 39643043672](https://github.com/SissiFeng/inheco-incubator-shaker/actions/runs/39643043672).
 - Project editable package build succeeded.
 - `uv run pytest -q`: **37 passed**.
 - Ruff undefined/unused-symbol checks passed; source/tests/examples formatted.
@@ -29,7 +30,7 @@ development environment and is not part of the validated connection path.
 - Exact response quirks on these particular 2021 Rev.04 instruments.
 - Multi-unit ASE0 stop latency; manufacturer notes stack vibration can delay completion.
 - Device state after USB loss, power cycle, process crash or long unattended operation.
-- macOS CI, TLS, LAN discovery, remote deployment or production endurance.
+- TLS, LAN discovery, remote deployment or production endurance.
 
 ## Important behavioral boundaries
 

@@ -24,8 +24,8 @@ accepts **Incubator Shaker MP / device type 1 only**.
 
 **Choose Serial when using Connector Factory.** The physical cable is USB, but the
 instrument exposes an FTDI virtual serial port (VCP): 19200 baud, 8N1. This connector
-uses pyserial rather than raw USB endpoints. Linux offline tests pass; macOS support
-is intended and included in CI, with physical commissioning still pending.
+uses pyserial rather than raw USB endpoints. Linux and macOS offline tests pass in CI.
+Physical hardware commissioning remains pending on both platforms.
 
 ## Install and run simulation (uv + Python 3.12)
 
