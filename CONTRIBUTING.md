@@ -7,6 +7,7 @@ uv sync --python 3.12 --extra test --extra dev --locked
 uv run ruff check src tests scripts
 uv run ruff format --check src tests scripts
 uv run pytest -q
+uv run --extra ui shaker-ui --simulation  # optional manual UI check
 uv build
 ```
 

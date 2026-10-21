@@ -3,7 +3,7 @@
 [![Offline tests](https://github.com/SissiFeng/inheco-incubator-shaker/actions/workflows/tests.yml/badge.svg)](https://github.com/SissiFeng/inheco-incubator-shaker/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-Version 0.2.0 targets PN 7300013 / device type 1. Native serial backend implemented;
+Version 0.3.0 targets PN 7300013 / device type 1. Native serial backend implemented;
 **physical hardware and macOS commissioning pending**. Default is simulation.
 An independent community implementation; not an official INHECO or UniteLabs product.
 No physical-device validation is claimed.
@@ -26,6 +26,37 @@ accepts **Incubator Shaker MP / device type 1 only**.
 instrument exposes an FTDI virtual serial port (VCP): 19200 baud, 8N1. This connector
 uses pyserial rather than raw USB endpoints. Linux and macOS offline tests pass in CI.
 Physical hardware commissioning remains pending on both platforms.
+
+## Browser control panel
+
+The optional panel runs on your own computer and talks to the connector through
+SiLA 2. It is not a hosted website and does not access the serial port directly.
+
+One command starts a simulated connector and opens the panel:
+
+```sh
+uv run --extra ui shaker-ui --simulation
+```
+
+Open `http://127.0.0.1:8765` if the browser does not open automatically. Do not run
+another connector on the same SiLA port at the same time. Use `--sila-port 50053`
+when the default 50052 is occupied.
+
+To control an already-running connector, start it using the configuration below,
+then run this in another terminal:
+
+```sh
+uv run --extra ui shaker-ui
+```
+
+The panel includes floor selection, live readings, initialization, drawer controls,
+shaking parameters, start/stop, heating controls, temperature stability waiting,
+and execution results. **SIMULATION / HARDWARE** is read from the connected server.
+Hardware initialization requires confirmation. Closing the panel does not stop
+heating/shaking. Commands remain subject to connector interlocks. The panel binds
+to localhost only; no remote access or cloud account is needed.
+
+[Panel usage and feature map](docs/CONTROL_PANEL.md)
 
 ## Install and run simulation (uv + Python 3.12)
 

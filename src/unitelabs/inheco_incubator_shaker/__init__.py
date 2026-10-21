@@ -9,7 +9,7 @@ from .io.protocol import InhecoProtocol
 from .io.serial_bus import SerialBus
 from .io.simulator import SimulationBus
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 
 async def create_app(config: InhecoConfig) -> AsyncGenerator[Connector, None]:

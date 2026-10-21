@@ -1,4 +1,4 @@
-# SiLA2 API — v0.2.0
+# SiLA2 API — v0.3.0
 
 Feature: `org.sissifeng/incubation/ShakerController` (custom application feature;
 not a claim of SiLA certification or reuse of a normative shaker feature).

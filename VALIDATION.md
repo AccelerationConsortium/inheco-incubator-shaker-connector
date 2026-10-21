@@ -1,13 +1,13 @@
-# Validation — 0.2.0 / 2026-10-21
+# Validation — 0.3.0 / 2026-10-21
 
 Status: software implementation with offline validation; physical commissioning pending.
 
 ## Evidence actually obtained
 
 - Fresh `uv sync --python 3.12 --extra test --locked` succeeded on Linux/Python 3.12.
-- GitHub Actions offline validation passed on both `ubuntu-latest` and `macos-latest`: [run 39643043672](https://github.com/SissiFeng/inheco-incubator-shaker/actions/runs/39643043672).
+- The v0.2.0 connector baseline passed GitHub Actions on both `ubuntu-latest` and `macos-latest`: [run 39643043672](https://github.com/SissiFeng/inheco-incubator-shaker/actions/runs/39643043672).
 - Project editable package build succeeded.
-- `uv run pytest -q`: **37 passed**.
+- `uv run pytest -q`: **41 passed**.
 - Ruff undefined/unused-symbol checks passed; source/tests/examples formatted.
 - CDK generated a fresh configuration; helper changed simulation config and read-only probe succeeded.
 - Native serial framing matches the manufacturer's published RFV CRC test vector.
@@ -21,6 +21,16 @@ Status: software implementation with offline validation; physical commissioning 
 
 Local TCP client/server tests passed. Multicast discovery was unavailable in the
 development environment and is not part of the validated connection path.
+
+## Local panel validation
+
+- Four HTTP → real SiLA/gRPC → simulator tests cover all panel operations,
+  failure propagation, unknown inputs, same-origin/token checks and hardware-init confirmation.
+- A running temperature wait rejects overlapping normal operations while allowing heater disable.
+- Panel JavaScript syntax checked with Node; HTML verified present in the wheel.
+- The installed `shaker-ui --simulation --no-browser` command passed a subprocess smoke test for startup, HTML, server mode, floors and command submission.
+- Browser layout and the temperature-wait disclosure were inspected against read-only simulation fixtures. The managed preview cannot launch the Python runtime; actual HTTP/gRPC operation tests ran separately.
+- The localhost web panel has not been tested against physical hardware.
 
 ## Not yet established
 
