@@ -16,7 +16,9 @@ shaker-ui = "unitelabs.inheco_incubator_shaker.ui:main"
 [project.optional-dependencies]
 test = ["pytest", "pytest-asyncio", "aiohttp==3.14.5"]
 ui = ["aiohttp==3.14.5"]
-dev = ["ruff==0.17.1", "markdown-it-py==4.2.0"]
+dev = [
+    "ruff==0.17.1",
+]
 [tool.hatch.build.targets.wheel]
 packages = ["src/unitelabs"]
 [tool.pytest.ini_options]
